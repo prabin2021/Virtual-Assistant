@@ -1,23 +1,25 @@
 import pyttsx3
 import speech_recognition as sr
 import pyautogui
-import sys
-from sketchpy import library as lib
-
-
-
-from datetime import datetime
-from random import choice
-import cv2
-import tkinter as tk
-from PIL import Image, ImageTk
+import urllib.parse
 import os
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
 import subprocess as sp
+import cv2
+import smtplib
+import tkinter as tk
+import pywhatkit as kit
+import webbrowser
+from datetime import datetime
+from sketchpy import library as lib
+from random import choice
+from PIL import Image, ImageTk
 import requests
 import wikipedia
-
-import urllib.parse
-import webbrowser
+import sys
 import subprocess
 
 
@@ -76,7 +78,7 @@ def take_user_input():
         if "open camera" in query.lower() or "camera" in query.lower() or "open the camera" in query.lower():
             open_camera()
             return None
-        if "capture photo" in query.lower() or "click photo" in query.lower() or "picture " in query.lower():
+        if "capture my photo" in query.lower() or "click my photo" in query.lower() or "picture " in query.lower():
             capture_photo()
             return None
         if  "open youtube" in query.lower() or "youtube" in query.lower():
@@ -100,10 +102,17 @@ def take_user_input():
             speak("Sir, the time is " + strTime)
             return None
         if "cursor" in query.lower() or "eye" in query.lower() or "eyes" in query.lower():
-            speak("Ok, sure sir, I am working on it and please keep your eyes infront the camere.")
-            eye_cursor_process = sp.Popen(['C:\\Users\\sigde\\OneDrive\\Desktop\\extra python\\myenv\\Scripts\\python.exe', 'C:\\Users\\sigde\\OneDrive\\Desktop\\extra python\\eyecursor.py'])
-            eye_cursor_process.wait()
-            return None
+            # speak("Ok, sure sir, I am working on it and please keep your eyes infront the camere.")
+            # eye_cursor_process = sp.Popen(['D:\\Environments\\myenv\\Scripts\\eyecursor.py', 'D:\\Environments\\eyecursor.py'])
+            # eye_cursor_process.wait()
+            # return None
+            speak("Ok, sure sir, I am working on it and please keep your eyes in front of the camera.")
+            try:
+                sp.run(['python','D:\\Environments\\eyecursor.py'])
+            except FileNotFoundError:
+                print("Error: The eyecursor.py script was not found.")
+            except sp.CalledProcessError as e:
+                print("Error executing eyecursor.py:", e)
         if "minimize" in query.lower() or "minimise" in query.lower():
             speak("Ok sir, I am minimizing it.")
             pyautogui.hotkey('win','down','down')
@@ -125,6 +134,12 @@ def take_user_input():
             obj = lib.rdj()
             obj.draw()
             return None
+        if  "greet me" in query.lower() or "greet" in query.lower():
+            greet_user()
+            return None
+        if  "send mail" in query.lower() or "send email" in query.lower():
+            result_email = send_email()
+            return result_email
         if "exit" in query.lower() or "stop" in query.lower() or "suta" in query.lower() or "sut" in query.lower() or "sutaa" in query.lower() or "good night" in query.lower():
             current_hour = datetime.now().hour
             if current_hour >= 21 or current_hour < 6:
@@ -145,11 +160,11 @@ def take_user_input():
 def handle_query(query):
     if query is None:
         return None
-    query = query.lower()
+    # query = query.lower()
     common_queries = {
         "how are you":lambda:speak("I am fine sir,thank you for asking and what about you sir."),
-        "fuck you":lambda:speak("thank you for your complementary, same to you sir."),
-        "fuck you bharat varat ":lambda:speak("yes sir, fuck him fast, fuck you bharat"),
+        "fuck you bro ":lambda:speak("thank you for your complementary, same to you sir."),
+        ("fuck you bharat","fuck you varat"):lambda:speak("yes sir, fuck him fast, fuck you bharat"),
         "who are you":lambda:speak("I am Jarwis, the virtual assistant of Mr. Prabin."),
         "what can you do":lambda:speak("I can perform several tasks like opening youtube,search anything on youtube , google, opening camera, typing, cursor controllingby your eyes or hands , and many more, what do you want me to do?"),
         ("i am bored","bored","feeling bored"):lambda:speak("Ok sir, What can I do for you then? Would you like to watch any videos in youtube?"),
@@ -166,8 +181,20 @@ def handle_query(query):
         "sumit":lambda:speak("Oh, yeah I know him sir, he is coordinator of Genius school and I think he loves to dance when he is drunk."),
         "abhishek":lambda:speak("Oh, yes I know him sir, he always uses the word 'muji' when he is drunk, he needs to eat a lot at a single time."),
         "puran":lambda:speak("Oh, yeah I know him sir, he is a sports teacher, he plays basketball well."),
-        "rupes":lambda:speak("Oh, yeah I know him sir, he is an accountant in Genius school, he always shakes hands with you when he meets with you.")
+        "rupes":lambda:speak("Oh, yeah I know him sir, he is an accountant in Genius school, he always shakes hands with you when he meets with you."),
+        "kevin":lambda:speak("Oh, yeah I know him sir, he is your student, he is currently in A level"),
+        ("kevin hero"):lambda:speak("kevin is hero sir")
+        
     }
+    # query_lower = query.lower()
+    # for key, response in common_queries.items():
+    #     if key == query_lower:  # Check for exact match
+    #         response()
+    #         return  # Stop processing further queries
+    #     elif isinstance(key, tuple) or query_lower in key:  # Check for partial match within tuple
+    #         response()
+    #         return  # Stop processing further queries
+    # return None
     query_lower = query.lower()
     for key, response in common_queries.items():
         if isinstance(key, tuple):
@@ -178,6 +205,7 @@ def handle_query(query):
         else:
             if key in query_lower:
                 response()
+    
     return None
 
 def handle_routine(query):
@@ -267,7 +295,98 @@ def main():
         if user_input == "exit":  
             break
         handle_query(user_input)
-        
+
+def send_email():
+    try:
+        speak("Sure sir. Please provide the recipient's email address.")
+        speak("How would you like to provide recipient's email address?")
+        choice_in_email  = take_user_input()
+        if "voice" in choice_in_email.lower() or "say" in choice_in_email.lower():
+            recipient_email = take_user_input()
+            if recipient_email:
+                recipient_email = recipient_email.replace(" ", "")
+            print(recipient_email)
+        elif "type" in choice_in_email.lower() or "write" in choice_in_email.lower():
+            recipient_email = input("Recipient's Email Address: ")
+        speak("What is the subject of the email?")
+        subject = take_user_input()
+        if "exit" in subject.lower():
+            return "exit"
+        speak("Please dictate the message content.")
+        message_content = take_user_input()
+        if "exit" in message_content.lower():
+            return "exit"
+
+        # Your email credentials and SMTP server details
+        sender_email = "sigdelprabin321@gmail.com"
+        ohoo = "omet osmk kavu tlrw"
+        smtp_server = "smtp.gmail.com"
+        smtp_port = 587  # or 465 for SSL
+
+        # Create MIMEMultipart message
+        message = MIMEMultipart()
+        message['From'] = sender_email
+        message['To'] = recipient_email
+        message['Subject'] = subject
+
+        # Attach message content
+        message.attach(MIMEText(message_content, 'plain'))
+
+        # Attachment functionality
+        speak("Do you have anything to attach here sir ?")
+        attach_choice = take_user_input()
+
+        if 'yes' in attach_choice.lower() or 'yeah' in attach_choice.lower() or 'offcourse' in attach_choice.lower():
+            speak("Please provide the file path sir")
+            file_path = input("Enter your file path:\n")
+
+            if os.path.exists(file_path):
+                # Open the file in binary mode
+                with open(file_path, 'rb') as attachment:
+                    # Add file as application/octet-stream
+                    # Email client can usually download this automatically as attachment
+                    part = MIMEBase('application', 'octet-stream')
+                    part.set_payload(attachment.read())
+
+                # Encode file in ASCII characters to send via email
+                encoders.encode_base64(part)
+                # Add header as key/value pair to attachment part
+                part.add_header(
+                    'Content-Disposition',
+                    f'attachment; filename= {os.path.basename(file_path)}'
+                )
+                # Add attachment to message and convert message to string
+                message.attach(part)
+            else:
+                speak("File not found. Attachment skipped.")
+
+
+
+        # Create SMTP server connection
+        server = smtplib.SMTP(smtp_server, smtp_port)
+        server.starttls()  # Secure the connection
+        server.login(sender_email, ohoo)  # Login to your email account
+
+        # Construct the email message
+        email_message = f"Subject: {subject}\n\n{message_content}"
+
+        speak("Please confirm the email content. Subject: {}. Message: {}. Do you want to proceed? (Yes/No)".format(subject, message_content))
+        confirm = take_user_input()
+
+        if confirm.lower() != 'yes':
+            speak("Email sending cancelled.")
+            return
+        # Send the email
+        server.sendmail(sender_email, recipient_email, email_message)
+
+        # Close the SMTP server connection
+        server.quit()
+
+        speak("Sir, Email is send successfully!")
+    except Exception as e:
+        print("An error occurred while sending the email:", e)
+        speak("Sorry, I couldn't send the email. Please try again.")
+    
     
 
 if __name__ == "__main__":
@@ -279,7 +398,7 @@ if __name__ == "__main__":
         main()
    
 
-#hello world
+
 
 
 
