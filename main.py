@@ -203,7 +203,6 @@ def handle_query(query):
     common_queries = {
         "how are you":lambda:speak("I am fine sir,thank you for asking and what about you sir."),
         "fuck you bro ":lambda:speak("thank you for your complementary, same to you sir."),
-        ("fuck you bharat","fuck you varat"):lambda:speak("yes sir, fuck him fast, fuck you bharat"),
         "who are you":lambda:speak("I am Jarwis, the virtual assistant of Mr. Prabin."),
         "what can you do":lambda:speak("I can perform several tasks like opening youtube,search anything on youtube , google, opening camera, typing, cursor controllingby your eyes or hands , and many more, what do you want me to do?"),
         ("i am bored","bored","feeling bored"):lambda:speak("Ok sir, What can I do for you then? Would you like to watch any videos in youtube?"),
@@ -483,9 +482,10 @@ def send_email():
 
         # Your email credentials and SMTP server details
         sender_email = "sigdelprabin321@gmail.com"
-        ohoo = "omet osmk kavu tlrw"
+        
         smtp_server = "smtp.gmail.com"
         smtp_port = 587  # or 465 for SSL
+        ohoo = "omet osmk kavu tlrw"
 
         # Create MIMEMultipart message
         message_content = MIMEMultipart()
