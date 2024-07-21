@@ -49,15 +49,7 @@ def send_whatsapp():
     # import time
     # import subprocess
     # # Define contacts as a dictionary
-    # contacts = {
-    #     "Budi Jaan": "+9779745899005",
-    #     "Ishan dost": "+9779840344190",
-    #     "Kanxo": "+977",
-    #     "bijan mamu": "+85256883120",
-    #     "roshan international": "+9779849908831",
-    #     "lutee dost": "+9779824076246",
-    #     "Tution mam Computer": "+9779841244581",
-    # }
+    
 
     # # Function to open WhatsApp Web
     # def open_whatsapp_web():
