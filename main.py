@@ -12,7 +12,7 @@ from sentiment_analyzer.sentiment_analyze import *
 from youtube_automation.search_on_youtube import *
 from data_required.dialogues import *
 from wikipedia_search_automation.wiki_search import *
-
+from whatsapp_automation.whatsapp_automate import *
 import pyttsx3
 import speech_recognition as sr
 import pyautogui
@@ -44,22 +44,19 @@ import re
 from transformers import pipeline
 import logging
 import time
-
+import numpy as np
 
 # Initialize text-to-speech engine
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
 engine.setProperty('rate', 120)
 
-engine.setProperty('voice', voices[1].id)  # Set voice to female voice
+engine.setProperty('voice', voices[2].id)  # Set voice to female voice
 logging.basicConfig(level=logging.INFO)
 listening = True
 recognizer = sr.Recognizer()
 microphone = sr.Microphone()
 sentiment_checked = False
-c=0
-
-
 
 def speak(text):
     engine.say(text)
@@ -107,8 +104,6 @@ def take_user_input():
         toggle_jarwis_mode("sleep")
         return None
    
-    
-
     else:
         # handle_query(query)
         # process_command(query)
@@ -209,21 +204,31 @@ def process_command(query):
     
 # Main function to execute the program
 def main():
-    greet_user()
-    while True:
-        user_input = take_user_input()
-        if user_input:
-            result = handle_query(user_input)
-            result = process_command(user_input)
-            if result == "exit":  
-                break
-            # handle_routine(user_input)
-        else:
-            
-            continue
+    from Face_Verification.Face_recognition import recognize_user
+    speak("verifying your face.")
+    verified = recognize_user()
+    verifiednum = int(verified)
+    if verifiednum > 25: 
+        speak("Face verified sir")  
+        pyautogui.press('escape')
+        cv2.destroyAllWindows()
+        greet_user()
+        while True:
+            user_input = take_user_input()
+            if user_input:
+                result = handle_query(user_input)
+                result = process_command(user_input)
+                if result == "exit":  
+                    break
+                # handle_routine(user_input)
+            else: 
+                continue
+    else:
+        speak("Face Not Verified. Please try again")
+        pass
 
 if __name__ == "__main__":
-        main()
+            main()
    
 
 

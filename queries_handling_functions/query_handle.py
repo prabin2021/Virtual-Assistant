@@ -17,6 +17,8 @@ def handle_query(query):
             "sahil":lambda:speak("Oh, yeah I know him sir. He is your student. He is in A level now. You should train him well."),
             "roshan":lambda:speak("Oh, yeah I got it. The few days ago you checked his bag when you lost your phone. He is really a silly guy sir."),
             ("assam","yasam"):lambda:speak("Oh, yeah I got it. He used to offer you bhola sir."),
+            ("hari","hari","sigdel"):lambda:speak("Oh, yeah I got it. He is your dad sir."),
+            ("deepa","dipa"):lambda:speak("Yes sir, she is your mom."),
             ("sansar","sanchar"):lambda:speak("Oh, yeah I got it. You saved his contact number as hancy hero sir."),
             ("saughat","saugat","sugat"):lambda:speak("Oh, yeah I got it sir.He is your friend since 11 class. He has same MT 15 bike as yours."),
             ("anurag","anuragh"):lambda:speak("Oh, yeah I got it sir. Your silly friend. He always argue with saugat."),
