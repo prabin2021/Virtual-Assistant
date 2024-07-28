@@ -208,7 +208,7 @@ def main():
     speak("verifying your face.")
     verified = recognize_user()
     verifiednum = int(verified)
-    if verifiednum > 25: 
+    if verifiednum > 15: 
         speak("Face verified sir")  
         pyautogui.press('escape')
         cv2.destroyAllWindows()

@@ -3,8 +3,8 @@ import time
 import subprocess
 import pywhatkit as kit
 def send_whatsapp():
-    # from main import speak
-    # from main import take_user_input
+    from main import speak
+    from main import take_user_input
     # pi.hotkey('win','up')
     # pi.moveTo(750,1050,1)
     pi.click(x=750, y = 1050, clicks = 1, interval =0, button ='left')
@@ -12,7 +12,7 @@ def send_whatsapp():
 
     pi.typewrite("whatsapp")
     time.sleep(1)
-    # pi.moveTo(730,270,1)
+    # # pi.moveTo(730,270,1)
     pi.click(x=730, y = 270, clicks = 1, interval =0, button ='left')
     time.sleep(1)
 
@@ -21,19 +21,19 @@ def send_whatsapp():
     # choice = input("Enter your choice:")
     # if any(keyword in choice.lower() for keyword in ("yes","i need to","search for","can you search","open conversation","open the conversation","i have to","look for","seek for","search for")):
     # pi.moveTo(200,150,1)
-    pi.click(x=170, y = 130, clicks = 1, interval =0, button ='left')
-    time.sleep(1)
-    pi.write("Budi Jaan")
-    time.sleep(1)
-    # pi.moveTo(200,240)
-    pi.click(x=200, y = 240, clicks = 1, interval =0, button ='left')
-    time.sleep(1)
-    # pi.moveTo(700,990)
-    pi.click(x=700, y = 900, clicks = 1, interval =0, button ='left')
-    time.sleep(1)
-    pi.write("hi")
-    pi.press("enter")
-    print(f"Message sent.")
+    # pi.click(x=170, y = 130, clicks = 1, interval =0, button ='left')
+    # time.sleep(1)
+    # pi.write("Budi Jaan")
+    # time.sleep(1)
+    # # pi.moveTo(200,240)
+    # pi.click(x=200, y = 240, clicks = 1, interval =0, button ='left')
+    # time.sleep(1)
+    # # pi.moveTo(700,990)
+    # pi.click(x=700, y = 900, clicks = 1, interval =0, button ='left')
+    # time.sleep(1)
+    # pi.write("hi")
+    # pi.press("enter")
+    # print(f"Message sent.")
 
     # else:
     #     print("Ok sir.")
@@ -45,6 +45,8 @@ def send_whatsapp():
     # # pi.typewrite("hello")
     # # pi.press('enter')
     # # time.sleep(2)
+
+
     # import pywhatkit as kit
     # import time
     # import subprocess
@@ -90,5 +92,3 @@ def send_whatsapp():
     # '''c
     # youtube search bar-806,125
     # whatapp search bar- 271,22
-
-# send_whatsapp()
