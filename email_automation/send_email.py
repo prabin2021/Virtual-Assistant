@@ -59,8 +59,8 @@ def send_email():
                 speak("Unable to create message of your email sir.")
                 return
             # Your email credentials and SMTP server details
-            sender_email = "Your email"
-            ohoo = "Your app specific password"
+            sender_email = "sigdelprabin321@gmail.com"
+            ohoo = "omet osmk kavu tlrw"
             smtp_server = "smtp.gmail.com"
             smtp_port = 587  # or 465 for SSL
             # Create MIMEMultipart message

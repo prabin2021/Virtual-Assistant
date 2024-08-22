@@ -2,12 +2,12 @@ import cv2
 import time
 def recognize_user():
     recognizer = cv2.face.LBPHFaceRecognizer_create() # Local Binary Patterns Histograms
-    recognizer.read('jarwis2/Face_Verification/image_trainer/trainer.yml')   #load trained model
-    cascadePath = "jarwis2/Face_Verification/haarcascade_frontalface_default.xml"
+    recognizer.read('D:/Github_Uploaded/jarwis2/Face_Verification/image_trainer/trainer.yml')   #load trained model
+    cascadePath = "D:/Github_Uploaded/jarwis2/Face_Verification/haarcascade_frontalface_default.xml"
     faceCascade = cv2.CascadeClassifier(cascadePath) #initializing haar cascade for object detection approach
     font = cv2.FONT_HERSHEY_SIMPLEX #denotes the font type
     id = 2 #number of persons you want to Recognize
-    names = ['','Prabin']  #names, leave first empty bcz counter starts from 0
+    names = ['','Prabin','Nabin']  #names, leave first empty bcz counter starts from 0
     cam = cv2.VideoCapture(0, cv2.CAP_DSHOW) #cv2.CAP_DSHOW to remove warning
     cam.set(3, 640) # set video FrameWidht
     cam.set(4, 480) # set video FrameHeight

@@ -2,10 +2,10 @@ import cv2
 import numpy as np
 from PIL import Image #pillow package
 import os
-path = 'jarwis2/Face_Verification/Face_samples' # Path for samples already taken
+path = 'D:/Github_Uploaded/jarwis2/Face_Verification/Face_samples' # Path for samples already taken
 
 recognizer = cv2.face.LBPHFaceRecognizer_create() # Local Binary Patterns Histograms
-detector = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
+detector = cv2.CascadeClassifier("D:/Github_Uploaded/jarwis2/Face_Verification/haarcascade_frontalface_default.xml")
 #Haar Cascade classifier is an effective object detection approach
 
 
@@ -34,6 +34,6 @@ print ("Training faces. It will take a few seconds.")
 faces,ids = Images_And_Labels(path)
 recognizer.train(faces, np.array(ids))
 
-recognizer.write('jarwis2/Face_Verification/image_trainer/trainer.yml')  
+recognizer.write('D:/Github_Uploaded/jarwis2/Face_Verification/image_trainer/trainer.yml')  
 
 print("Your face has been trained. Now, it's ready to use.")

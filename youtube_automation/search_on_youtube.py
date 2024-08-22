@@ -4,7 +4,7 @@ import subprocess
 
 def extract_search_query(query):
         # from main_function.main import speak
-        start_keywords = ["search ","for","look for", "find", "about","search about","show me","watch"]
+        start_keywords = ["search for"," seek for","look for", "find", "search that", "about","search about","show me","watch"]
         # Split the query into words
         words = query.lower().split()
         # Initialize search query
